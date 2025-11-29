@@ -19,3 +19,8 @@ nasUsers:
     - mode: 2770
     - recurse:
       - group
+
+smbd:
+ service.running:
+   - watch:
+     - file: /etc/samba/smb.conf
