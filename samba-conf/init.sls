@@ -5,6 +5,7 @@
 wsUser1:
   user.present:
     - createhome: false
+    - shell: /sbin/nologin
     - password: olen)Omena4
 
 nasUsers:
@@ -20,7 +21,14 @@ nasUsers:
     - recurse:
       - group
 
+smbpasswd:
+  cmd.script:
+    - name: salt://samba-conf/smb-script.sh
+    - onchanges:
+      - wsUser1
+
 smbd:
- service.running:
-   - watch:
-     - file: /etc/samba/smb.conf
+  service.running:
+    - onchanges:
+      - file: /etc/samba/smb.conf
+      - cmd: salt://samba-conf/smb-script.sh
