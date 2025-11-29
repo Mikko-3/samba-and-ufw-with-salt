@@ -12,8 +12,9 @@ nasUsers:
     - addusers:
       - wsUser1
 
-/srv/samba/nas/:
+/srv/samba/nas:
   file.directory:
+    - makedirs: true
     - group: nasUsers
     - mode: 2770
     - recurse:
