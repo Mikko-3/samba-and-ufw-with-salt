@@ -1,3 +1,20 @@
+# Projektin raportti
+
+Tässä raportissa kerrotaan projektin toteutuksen vaiheista.
+Projektin tehtävänanto löytyy kurssin sivulta kohdasta h6 - miniprojekti (Karvinen 2025).
+
+## Ympäristö
+
+**Mikko:**  
+Host - Lenovo ThinkPad L14  
+OS: Windows 11 25H2  
+CPU: AMD Ryzen 5 Pro 4650U  
+RAM: 16 GB DDR4  
+SSD: 256 GB NVMe  
+Virtualisointiohjelma: Oracle VirtualBox  
+Virtuaalikoneiden OS: Debian 13 Trixie
+
+
 ## Samban asennus paikallisesti Workstationille
 
 Asennettuani saltin, asensin workstation koneelle samban ja smbclient ohjelmiston. Muokkasin /etc/samba/smb.conf tiedostoon asetukset.
@@ -153,3 +170,6 @@ smbd:
 
 ”Onchanges” optio tarkkailee, onko smb.conf tila ajettu ja onko se tehnyt muutoksia, jolloin palvelu käynnistetään uudelleen vain jos muutoksia on tehty.
 Näin tila on idempotentti. 
+
+# Lähdeluettelo
+
