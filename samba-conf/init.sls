@@ -6,7 +6,7 @@ wsUser1:
   user.present:
     - createhome: false
     - shell: /sbin/nologin
-    - password: olen)Omena4
+    - password: testi123
 
 nasUsers:
   group.present:
@@ -31,4 +31,3 @@ smbd:
   service.running:
     - onchanges:
       - file: /etc/samba/smb.conf
-      - cmd: salt://samba-conf/smb-script.sh
