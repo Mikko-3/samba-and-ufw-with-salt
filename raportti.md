@@ -231,15 +231,16 @@ Ja kaikki toimi.
 - UFW [help.ubuntu.com](https://help.ubuntu.com/community/UFW)  
 - UFW & Samba [askubuntu.com](https://askubuntu.com/questions/36608/ufw-firewall-still-blocking-smb-despite-adding-rules)  
 - Salt project [SALT.STATES.CMD](https://docs.saltproject.io/en/latest/ref/states/all/salt.states.cmd.html#salt.states.cmd.run)  
-- Tero Karvinen, https://terokarvinen.com/2021/install-debian-on-virtualbox/  https://terokarvinen.com/install-salt-on-debian-13-trixie/   https://terokarvinen.com/2018/03/28/salt-quickstart-salt-stack-master-and-slave-on-ubuntu-linux/  
+- Tero Karvinen, https://terokarvinen.com/2021/install-debian-on-virtualbox/  https://terokarvinen.com/install-salt-on-debian-13-trixie/   https://terokarvinen.com/2018/03/28/salt-quickstart-salt-stack-master-and-slave-on-ubuntu-linux/
+
 Karvinen, T. 2025. Palvelinten hallinta. Luettavissa: https://terokarvinen.com/palvelinten-hallinta/#h6-miniprojekti. Luettu: 30.11.2025.  
 Samba. s.a. smbpasswd (8). Luettavissa: https://www.samba.org/samba/docs/current/man-html/smbpasswd.8.html. Luettu: 30.11.2025.  
 SambaWiki. 2025. Setting up Samba as a Standalone Server. Luettavissa: https://wiki.samba.org/index.php/Setting_up_Samba_as_a_Standalone_Server. Luettu: 30.11.2025.  
 Stackexchange. 2022. Shell script to set password for samba user. Luettavissa: https://unix.stackexchange.com/a/584414. Luettu: 30.11.2025.  
 Stackexchange. 2016. What's the difference between /sbin/nologin and /bin/false. Luettavissa: https://unix.stackexchange.com/a/10867. Luettu: 30.11.2025.  
-Stackoverflow. 2010. echo smbpasswd by --stdin doesn't work. Luettavissa: https://stackoverflow.com/a/3323978. Luettu: 30.11.2025.
-VMware a. 2025. salt.states.user. Luettavissa: https://docs.saltproject.io/en/latest/ref/states/all/salt.states.user.html. Luettu: 30.11.2025.
-VMware b. 2025. salt.states.group. Luettavissa: https://docs.saltproject.io/en/latest/ref/states/all/salt.states.group.html. Luettu: 30.11.2025.
-VMware c. 2025. salt.states.file. Luettavissa: https://docs.saltproject.io/en/latest/ref/states/all/salt.states.file.html#salt.states.file.directory. Luettu: 30.11.2025.
-VMware d. 2025. salt.states.cmd. Luettavissa: https://docs.saltproject.io/en/latest/ref/states/all/salt.states.cmd.html. Luettu: 30.11.2025.
+Stackoverflow. 2010. echo smbpasswd by --stdin doesn't work. Luettavissa: https://stackoverflow.com/a/3323978. Luettu: 30.11.2025.  
+VMware a. 2025. salt.states.user. Luettavissa: https://docs.saltproject.io/en/latest/ref/states/all/salt.states.user.html. Luettu: 30.11.2025.  
+VMware b. 2025. salt.states.group. Luettavissa: https://docs.saltproject.io/en/latest/ref/states/all/salt.states.group.html. Luettu: 30.11.2025.  
+VMware c. 2025. salt.states.file. Luettavissa: https://docs.saltproject.io/en/latest/ref/states/all/salt.states.file.html#salt.states.file.directory. Luettu: 30.11.2025.  
+VMware d. 2025. salt.states.cmd. Luettavissa: https://docs.saltproject.io/en/latest/ref/states/all/salt.states.cmd.html. Luettu: 30.11.2025.  
 VMware e. 2025. Requisites and Other Global State Arguments. Luettavissa: https://docs.saltproject.io/en/latest/ref/states/requisites.html#requisites-onchanges. Luettu: 30.11.2025.
