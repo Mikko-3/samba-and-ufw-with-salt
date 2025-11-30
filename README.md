@@ -5,6 +5,8 @@ This project was made by [Mikko Niskala](https://github.com/Mikko-3) and [Niilo 
 Main idea of the project was to set up a Samba standalone server to share files over the local network and manage it with Salt.
 Uncomplicated Firewall was included to make setting up firewall rules easier.
 
+<img width="1024" height="461" alt="lopputulos" src="https://github.com/user-attachments/assets/af2f9b78-edc5-47fc-b734-472b5e44c70c" />
+
 ## References
 
 - UFW [help.ubuntu.com](https://help.ubuntu.com/community/UFW)
