@@ -13,7 +13,7 @@ RAM: 16 GB DDR4
 SSD: 256 GB NVMe  
 Virtualisointiohjelma: Oracle VirtualBox  
 Virtuaalikoneiden OS: Debian 13 Trixie
-
+Virtuaalikoneiden nimet: workstation ja sambaServer
 
 ## Samban asennus paikallisesti Workstationille
 
@@ -32,6 +32,8 @@ Asennettuani saltin, asensin workstation koneelle samban ja smbclient ohjelmisto
         inherit permissions = yes
         valid users = @nasUsers
 ```
+
+(SambaWiki, 2025.)
 
 Loin uuden käyttäjän ja lisäsin sen Samban tietokantaan seuraavilla komennoilla:
 
@@ -56,11 +58,13 @@ chgrp -R demoGroup /srv/samba/nas/
 chmod 2770 /srv/samba/nas/
 ```
 
+(SambaWiki, 2025.)
+
 Testasin konfiguraation “testparm -s” komennolla virheiden varalta, tulos oli toimiva konfiguraatio.
 Lopuksi Samban käynnistäminen ja sen käynnistäminen bootissa:
-`sudo systemctl enable smbd`
+`sudo systemctl enable smbd`.
 Nyt Samba on asennettu ja konfiguroitu. Testasin toimivuutta yhdistämällä jakoon:
-`smbclient -U demoUser //workstation/nas`
+`smbclient -U demoUser //workstation/nas`.
 
 <img width="940" height="124" alt="image" src="https://github.com/user-attachments/assets/7125ed7c-4e22-4108-9298-6fedd6cd10d1" />
 
@@ -72,9 +76,11 @@ Käyttäjällä ei ole pääsyä hakemistoon, joten pääsynhallinta toimii oike
 
 ## Samba Saltilla
 
+Seuraavaksi oli toteuttettava sama Saltin avulla.
+
 Ensin loin smb-conf hakemiston /srv/salt/ hakemistoon.
 Loin hakemistoon init.sls tiedoston, sekä kopioin smb.conf tiedoston /etc/samba/ hakemistosta.
-Smb.conf ei tarvinnut enää muokata, se sisältää tarvittavat asetukset.
+Smb.conf ei tarvinnut enää muokata, se sisälsi jo tarvittavat asetukset.
 Loin init.sls tiedostoon aluksi tilan, joka kopioi smb.conf tiedoston oikeaan paikkaan orjalla:
 
 ```
@@ -85,6 +91,7 @@ Loin init.sls tiedostoon aluksi tilan, joka kopioi smb.conf tiedoston oikeaan pa
 
 Tämän jälkeen testasin toiminnan paikallisesti ”sudo salt-call –local” komennon avulla.
 Tiedostoon ei tarvinnut tehdä muutoksia, koska se oli jo oikeassa tilassa, joten tila toimi.
+
 Seuraavaksi vuorossa oli käyttäjän ja käyttäjäryhmän luominen.
 
 ```
@@ -121,12 +128,12 @@ Jotta tiedostojen jako voi onnistua, tarvitaan jaettava hakemisto. Loin sen file
 
 File.directory toimii samankaltaisesti kuin file.managed, mutta hakemistoille.
 ”Makedirs: true” optio luo koko hakemistopolun (/srv/samba/nas), ilman tätä Salt yrittäisi luoda vain nas hakemiston /srv/samba/ polkuun, mutta koska samba hakemistoa ei ole oletuksena srv hakemistossa, tila ei suoriutuisi onnistuneesti.
-Group asettaa hakemiston ryhmän ja mode oikeudet hakemistoon ja tiedostoihin.
-Recurse optio määrittää, että hakemistoon jo luodut tiedostot ja hakemistot perivät oikeudet määritellyltä ryhmältä.
+"Group" asettaa hakemiston ryhmän ja "mode" oikeudet hakemistoon ja tiedostoihin.
+"Recurse" optio määrittää, että hakemistoon jo luodut tiedostot ja hakemistot perivät oikeudet määritellyltä ryhmältä.
 Testauksessa Salt loi hakemiston onnistuneesti oikeilla oikeuksilla.
 
 Ennen kuin Samban pääsynhallinta toimii, on luotu tili lisättävä Sambaan.
-Tämä onnistuu smbpasswd komennolla, joten loin init.sls tiedostoon tilan, joka ajaa skriptin orjalla.
+Tämä onnistuu "smbpasswd" komennolla, joten loin init.sls tiedostoon tilan, joka ajaa skriptin orjalla.
 
 ```
 smbpasswd:
@@ -156,7 +163,7 @@ Normaalisti smbpasswd kysyy salasanan ja sen jälkeen salasana on toistettava, j
 Printf kirjoittaa salasanan ja rivinvaihdon, jotta smbpasswd suorittuu onnistuneesti.
 
 Testauksessa ilmeni alun perin ongelma, jossa smbpasswd ei lisännyt käyttäjää.
-Olin kirjoittanut skriptin ensin käyttäen echo -e komentoa printf sijaan, ja tämä ei jostain syystä halunnut toimia.
+Olin kirjoittanut skriptin ensin käyttäen "echo -e" komentoa printf sijaan, ja tämä ei jostain syystä halunnut toimia.
 Vaihdettuani sen printf komentoon muuttamatta mitään muuta, skripti toimi.
 
 Viimeisenä, on Samba käynnistettävä/käynnistettävä uudelleen.
@@ -168,7 +175,7 @@ smbd:
       - file: /etc/samba/smb.conf
 ```
 
-”Onchanges” optio tarkkailee, onko smb.conf tila ajettu ja onko se tehnyt muutoksia, jolloin palvelu käynnistetään uudelleen vain jos muutoksia on tehty.
+”Onchanges” optio tarkkailee, onko "/etc/samba/smb.conf" tila ajettu ja onko se tehnyt muutoksia, jolloin palvelu käynnistetään uudelleen vain jos muutoksia on tehty.
 Näin tila on idempotentti. 
 
 # Lähdeluettelo
