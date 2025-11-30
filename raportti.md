@@ -228,6 +228,41 @@ Ja kaikki toimi.
 
 - Koska kaikki testimme eri koneilla eivät tuottaneet puhdasta tulosta, aloimme vielä tutkia mahdollisuutta saada top-fileen eri komentoja minioneille ja mastereille. Sellaista ratkaisua emme saaneet tässä ajassa kekattua, joten vain poistimme UFW:n konfigurointi osuudesta Saltin sallimisen: se aiheutti virheilmoituksia minion koneilla, mutta ei sellaisilla koneilla, joissa oli myös master.
 
+## Testaus
+
+Lopputulos testattiin kahdella tyhjällä virtuaalikoneella, workstation ja sambaServer.
+Salt asennettiin molempiin koneisiin, workstationiin master ja sambaServeriin minion.
+Lisäksi workstation koneeseen asennettiin smbclient ohjelma jakoon yhdistämistä varten.
+Tämän jälkeen projekti ladattiin workstationille wget ohjelmalla, luotiin `/srv/salt/` hakemisto ja kopioitiin projektin tiedostot readme.md, licence ja raportti.md lukuun ottamatta.
+
+<img width="440" height="46" alt="image" src="https://github.com/user-attachments/assets/d114f3b2-b362-4666-bb07-6405b8fd2cd8" />
+
+Tämän jälkeen ajettiin komento `sudo salt '*' state.apply`.
+
+<img width="520" height="185" alt="image" src="https://github.com/user-attachments/assets/12e3e37f-6a1b-4c91-8d92-a942a0635c58" />
+
+Kaikki tilat ajettiin onnistuneesti.
+
+Seuraavaksi testattiin, toimiiko Samba jako smbclient ohjelmalla.
+
+<img width="728" height="96" alt="image" src="https://github.com/user-attachments/assets/36a85a4f-2c43-4663-81b4-0ab6ae9c0a0d" />
+
+Workstation saa yhteyden Samba jakoon.
+Suljin smb yhteyden, tein uuden tekstitiedoston workstationilla ja kopioin sen sambaServerille.
+
+<img width="864" height="313" alt="image" src="https://github.com/user-attachments/assets/72e43095-61fd-4828-a0d9-a2fd1b30fbd3" />
+
+Seuraavaksi tarkastin tiedoston olemassaolon sambaServerillä.
+
+<img width="681" height="45" alt="image" src="https://github.com/user-attachments/assets/06621682-2d58-4600-81dc-37f9425d19ad" />
+
+Tiedostojen siirto palvelimelle toimii.  
+Lopuksi ajoin `sudo salt '*' state.apply` uudelleen, tarkastaakseni idempotenssin.
+
+<img width="517" height="181" alt="image" src="https://github.com/user-attachments/assets/17190911-4054-4d6a-8fab-da8d08dedd5d" />
+
+Tila suoritettiin onnistuneesti, mutta yhtään muutosta ei tehty, sillä kaikki oli halutussa tilassa.
+
 # Lähdeluettelo
 
 - UFW [help.ubuntu.com](https://help.ubuntu.com/community/UFW)  
