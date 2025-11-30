@@ -16,6 +16,7 @@ Virtuaalikoneiden OS: Debian 13 Trixie
 Virtuaalikoneiden nimet: workstation ja sambaServer
 
 **Niilo**
+
 Fyysinen kone
 - MacBook Air M3
 
