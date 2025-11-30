@@ -16,10 +16,10 @@ Virtuaalikoneiden OS: Debian 13 Trixie
 Virtuaalikoneiden nimet: workstation ja sambaServer
 
 **Niilo**
-### Fyysinen kone
+Fyysinen kone
 - MacBook Air M3
 
-### Virtuaali kone
+Virtuaali kone
 - UTM
 - Debian 12 (bookworm)
   - Muisti 4 GB
@@ -224,3 +224,7 @@ Ja kaikki toimi.
 
 # Lähdeluettelo
 
+- UFW [help.ubuntu.com](https://help.ubuntu.com/community/UFW)
+- UFW & Samba [askubuntu.com](https://askubuntu.com/questions/36608/ufw-firewall-still-blocking-smb-despite-adding-rules)
+- Salt project [SALT.STATES.CMD](https://docs.saltproject.io/en/latest/ref/states/all/salt.states.cmd.html#salt.states.cmd.run)
+- Tero Karvinen, https://terokarvinen.com/2021/install-debian-on-virtualbox/  https://terokarvinen.com/install-salt-on-debian-13-trixie/   https://terokarvinen.com/2018/03/28/salt-quickstart-salt-stack-master-and-slave-on-ubuntu-linux/
