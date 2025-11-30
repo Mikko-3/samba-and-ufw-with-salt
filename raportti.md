@@ -15,7 +15,9 @@ SSD: 256 GB NVMe
 Virtualisointiohjelma: Oracle VirtualBox  
 Virtuaalikoneiden OS: Debian 13 Trixie  
 CPU & RAM: 2 cores, 4GB  
-Virtuaalikoneiden nimet: workstation ja sambaServer
+Virtuaalikoneiden nimet: workstation (master) ja sambaServer (slave)  
+Virtuaalinen NAT verkko "Projekti": 10.0.2.0/24  
+IP osoitteet: workstation - 10.0.2.4 , sambaServer - 10.0.2.15
 
 **Niilo:**
 
