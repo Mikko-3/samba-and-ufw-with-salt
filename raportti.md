@@ -232,8 +232,8 @@ Ja kaikki toimi.
 
 Lopputulos testattiin kahdella tyhjällä virtuaalikoneella, workstation ja sambaServer.
 Salt asennettiin molempiin koneisiin, workstationiin master ja sambaServeriin minion.
-Lisäksi workstation koneeseen asennettiin smbclient ohjelma jakoon yhdistämistä varten.
-Tämän jälkeen projekti ladattiin workstationille wget ohjelmalla, luotiin `/srv/salt/` hakemisto ja kopioitiin projektin tiedostot readme.md, licence ja raportti.md lukuun ottamatta.
+Lisäksi workstation koneeseen asennettiin smbclient ohjelma jakoon yhdistämistä varten ja git.
+Tämän jälkeen projekti kloonattiin workstationille git avulla, luotiin `/srv/salt/` hakemisto ja kopioitiin projektin tiedostot readme.md, licence ja raportti.md lukuun ottamatta.
 
 <img width="440" height="46" alt="image" src="https://github.com/user-attachments/assets/d114f3b2-b362-4666-bb07-6405b8fd2cd8" />
 
