@@ -10,12 +10,14 @@ Host - Lenovo ThinkPad L14
 OS: Windows 11 25H2  
 CPU: AMD Ryzen 5 Pro 4650U  
 RAM: 16 GB DDR4  
-SSD: 256 GB NVMe  
+SSD: 256 GB NVMe
+
 Virtualisointiohjelma: Oracle VirtualBox  
-Virtuaalikoneiden OS: Debian 13 Trixie
+Virtuaalikoneiden OS: Debian 13 Trixie  
+CPU & RAM: 2 cores, 4GB  
 Virtuaalikoneiden nimet: workstation ja sambaServer
 
-**Niilo**
+**Niilo:**
 
 Fyysinen kone
 - MacBook Air M3
@@ -32,7 +34,7 @@ Virtuaali kone
 
 ## Samban asennus paikallisesti Workstationille
 
-Asennettuani saltin, asensin workstation koneelle samban ja smbclient ohjelmiston. Muokkasin /etc/samba/smb.conf tiedostoon asetukset.
+Asennettuani Saltin, asensin workstation koneelle Samban ja smbclient ohjelmiston. Muokkasin /etc/samba/smb.conf tiedostoon asetukset.
 
 ```
 [global]
@@ -75,17 +77,17 @@ chmod 2770 /srv/samba/nas/
 
 (SambaWiki, 2025.)
 
-Testasin konfiguraation “testparm -s” komennolla virheiden varalta, tulos oli toimiva konfiguraatio.
+Testasin konfiguraation `testparm -s` komennolla virheiden varalta, tulos oli toimiva konfiguraatio.
 Lopuksi Samban käynnistäminen ja sen käynnistäminen bootissa:
 `sudo systemctl enable smbd`.
 Nyt Samba on asennettu ja konfiguroitu. Testasin toimivuutta yhdistämällä jakoon:
 `smbclient -U demoUser //workstation/nas`.
 
-<img width="940" height="124" alt="image" src="https://github.com/user-attachments/assets/7125ed7c-4e22-4108-9298-6fedd6cd10d1" />
+<img width="470" height="62" alt="image" src="https://github.com/user-attachments/assets/7125ed7c-4e22-4108-9298-6fedd6cd10d1" />
 
 Kaikki toimi oikein. Kokeilin myös yhdistää käyttäjällä, joka ei kuulu nasUsers ryhmään:
 
-<img width="940" height="99" alt="image" src="https://github.com/user-attachments/assets/64b20fd8-0bb3-48a2-9b0e-6b3a422e9e6e" />
+<img width="470" height="50" alt="image" src="https://github.com/user-attachments/assets/64b20fd8-0bb3-48a2-9b0e-6b3a422e9e6e" />
 
 Käyttäjällä ei ole pääsyä hakemistoon, joten pääsynhallinta toimii oikein.
 
@@ -93,7 +95,7 @@ Käyttäjällä ei ole pääsyä hakemistoon, joten pääsynhallinta toimii oike
 
 Seuraavaksi oli toteuttettava sama Saltin avulla.
 
-Ensin loin smb-conf hakemiston /srv/salt/ hakemistoon.
+Ensin loin smb-conf hakemiston /srv/salt/ hakemistoon workstation koneelle.
 Loin hakemistoon init.sls tiedoston, sekä kopioin smb.conf tiedoston /etc/samba/ hakemistosta.
 Smb.conf ei tarvinnut enää muokata, se sisälsi jo tarvittavat asetukset.
 Loin init.sls tiedostoon aluksi tilan, joka kopioi smb.conf tiedoston oikeaan paikkaan orjalla:
@@ -104,8 +106,8 @@ Loin init.sls tiedostoon aluksi tilan, joka kopioi smb.conf tiedoston oikeaan pa
     - source: salt://samba-conf/smb.conf
 ```
 
-Tämän jälkeen testasin toiminnan paikallisesti ”sudo salt-call –local” komennon avulla.
-Tiedostoon ei tarvinnut tehdä muutoksia, koska se oli jo oikeassa tilassa, joten tila toimi.
+Tämän jälkeen testasin toiminnan paikallisesti `sudo salt-call --local` komennon avulla.
+Tiedostoon ei tarvinnut tehdä muutoksia, koska se oli jo oikeassa tilassa, joten tila toimi oikein.
 
 Seuraavaksi vuorossa oli käyttäjän ja käyttäjäryhmän luominen.
 
@@ -122,14 +124,14 @@ nasUsers:
       - wsUser1
 ```
 
-User.present luo uuden ”wsUser1” nimisen käyttäjän salasanalla ”testi123”, mutta ei luo käyttäjälle kotihakemistoa ”createhome: false” optiolla, sekä estää kirjautumisen shelliin asettamalla oletus shelliksi nologin.
-Samba ei tarvitse näitä asioita toimiakseen, eikä käyttäjää ole tarkoitus käyttää muuhun paikallisella koneella, joten nämä eivät ole tarpeellisia.  
-Group.present toimii samalla periaatteella kuin user.present, mutta ryhmille.
-Se luo uuden ”nasUsers” ryhmän ja lisää ”wsUser1” tilin ryhmän jäseneksi.
+`User.present` luo uuden ”wsUser1” nimisen käyttäjän salasanalla ”testi123”, mutta ei luo käyttäjälle kotihakemistoa ”createhome: false” optiolla, sekä asettaa oletus shellin optiolla "shell" (VMware a. 2025).
+Asettamalla "shell" optioon "nologin", estetään käyttäjän kirjautuminen shelliin (Stackexchange 2016).
+Samba ei tarvitse näitä asioita toimiakseen, eikä käyttäjää ole tarkoitus käyttää muuhun paikallisella koneella, joten nämä eivät ole tarpeellisia (SambaWiki 2025).  
+`Group.present` luo uuden ”nasUsers” ryhmän ja lisää ”wsUser1” tilin ryhmän jäseneksi (VMware b. 2025).
 Näin tilillä on oikeudet Samban jaettuun kansioon.
 Testasin jälleen toiminnan paikallisesti, Salt loi käyttäjän onnistuneesti ja lisäsi sen ryhmään, jonka se loi onnistuneesti.
 
-Jotta tiedostojen jako voi onnistua, tarvitaan jaettava hakemisto. Loin sen file.directory:n avulla:
+Jotta tiedostojen jako voi onnistua, tarvitaan jaettava hakemisto. Loin sen `file.directory`:n avulla:
 
 ```
 /srv/samba/nas:
@@ -141,14 +143,14 @@ Jotta tiedostojen jako voi onnistua, tarvitaan jaettava hakemisto. Loin sen file
       - group
 ```
 
-File.directory toimii samankaltaisesti kuin file.managed, mutta hakemistoille.
+`File.directory` toimii samankaltaisesti kuin `file.managed`, mutta hakemistoille.
 ”Makedirs: true” optio luo koko hakemistopolun (/srv/samba/nas), ilman tätä Salt yrittäisi luoda vain nas hakemiston /srv/samba/ polkuun, mutta koska samba hakemistoa ei ole oletuksena srv hakemistossa, tila ei suoriutuisi onnistuneesti.
 "Group" asettaa hakemiston ryhmän ja "mode" oikeudet hakemistoon ja tiedostoihin.
-"Recurse" optio määrittää, että hakemistoon jo luodut tiedostot ja hakemistot perivät oikeudet määritellyltä ryhmältä.
+"Recurse" optio määrittää, että hakemistoon jo luodut tiedostot ja hakemistot perivät oikeudet määritellyltä ryhmältä. (VMware b. 2025.)
 Testauksessa Salt loi hakemiston onnistuneesti oikeilla oikeuksilla.
 
 Ennen kuin Samban pääsynhallinta toimii, on luotu tili lisättävä Sambaan.
-Tämä onnistuu "smbpasswd" komennolla, joten loin init.sls tiedostoon tilan, joka ajaa skriptin orjalla.
+Tämä onnistuu `smbpasswd` komennolla (SambaWiki 2025), joten loin init.sls tiedostoon tilan, joka ajaa skriptin orjalla.
 
 ```
 smbpasswd:
@@ -158,8 +160,9 @@ smbpasswd:
       - wsUser1
 ```
 
-Cmd.script lataa skriptitiedoston masterilta ja ajaa sen orjalla.
-”Name” kertoo ladattavan tiedoston sijainnin ja ”onchanges” suorittaa skriptin vain, jos ”wsUser1” moduuli on suoritettu, eli käyttäjä on luotu tai sen asetuksia muokattu.
+`Cmd.script` lataa skriptitiedoston masterilta ja ajaa sen orjalla.
+”Name” optio kertoo ladattavan tiedoston sijainnin. (VMware d. 2025.)
+Optio ”onchanges” suorittaa skriptin vain, jos ”wsUser1” moduuli on suoritettu, eli käyttäjä on luotu tai sen asetuksia muokattu (VMware e. 2025).
 Näin skriptistä saadaan idempotentti.
 
 Loin masterille skriptitiedoston samalla nimellä ja samaan polkuun kuin init.sls tiedostossa spesifioin. Skriptin sisältö:
@@ -172,13 +175,13 @@ printf "$pass\n$pass\n" | smbpasswd -a -s $user
 ```
 
 Skripti luo muuttujat user ja pass, joihin se tallettaa käyttäjänimen ja salasanan.
-Tämän jälkeen skripti ajaa smbpasswd ohjelman, jossa -a lisää olemassa olevan käyttäjän ja -s kertoo smbpasswd suoritettavan ilman prompteja (silent).
-Tämän option on tarkoitus helpottaa skriptaamista.
+Tämän jälkeen skripti ajaa smbpasswd ohjelman, jossa -a lisää olemassa olevan käyttäjän ja -s kertoo smbpasswd suoritettavan ilman prompteja (Samba s.a.).
+Tämän option on tarkoitus helpottaa skriptaamista.  
 Normaalisti smbpasswd kysyy salasanan ja sen jälkeen salasana on toistettava, jotta se tallentuu.
 Printf kirjoittaa salasanan ja rivinvaihdon, jotta smbpasswd suorittuu onnistuneesti.
 
 Testauksessa ilmeni alun perin ongelma, jossa smbpasswd ei lisännyt käyttäjää.
-Olin kirjoittanut skriptin ensin käyttäen "echo -e" komentoa printf sijaan, ja tämä ei jostain syystä halunnut toimia.
+Olin kirjoittanut skriptin ensin käyttäen `echo -e` komentoa printf sijaan, ja tämä ei jostain syystä halunnut toimia (Stackexchange 2022).
 Vaihdettuani sen printf komentoon muuttamatta mitään muuta, skripti toimi.
 
 Viimeisenä, on Samba käynnistettävä/käynnistettävä uudelleen.
@@ -190,7 +193,7 @@ smbd:
       - file: /etc/samba/smb.conf
 ```
 
-”Onchanges” optio tarkkailee, onko "/etc/samba/smb.conf" tila ajettu ja onko se tehnyt muutoksia, jolloin palvelu käynnistetään uudelleen vain jos muutoksia on tehty.
+”Onchanges” optio tarkkailee, onko "/etc/samba/smb.conf" tila ajettu onnistuneesti ja onko se tehnyt muutoksia, jolloin palvelu käynnistetään uudelleen vain jos muutoksia on tehty (VMware e. 2025). 
 Näin tila on idempotentti. 
 
 ## Saltin ja UFW:n konfigurointi
@@ -225,7 +228,18 @@ Ja kaikki toimi.
 
 # Lähdeluettelo
 
-- UFW [help.ubuntu.com](https://help.ubuntu.com/community/UFW)
-- UFW & Samba [askubuntu.com](https://askubuntu.com/questions/36608/ufw-firewall-still-blocking-smb-despite-adding-rules)
-- Salt project [SALT.STATES.CMD](https://docs.saltproject.io/en/latest/ref/states/all/salt.states.cmd.html#salt.states.cmd.run)
-- Tero Karvinen, https://terokarvinen.com/2021/install-debian-on-virtualbox/  https://terokarvinen.com/install-salt-on-debian-13-trixie/   https://terokarvinen.com/2018/03/28/salt-quickstart-salt-stack-master-and-slave-on-ubuntu-linux/
+- UFW [help.ubuntu.com](https://help.ubuntu.com/community/UFW)  
+- UFW & Samba [askubuntu.com](https://askubuntu.com/questions/36608/ufw-firewall-still-blocking-smb-despite-adding-rules)  
+- Salt project [SALT.STATES.CMD](https://docs.saltproject.io/en/latest/ref/states/all/salt.states.cmd.html#salt.states.cmd.run)  
+- Tero Karvinen, https://terokarvinen.com/2021/install-debian-on-virtualbox/  https://terokarvinen.com/install-salt-on-debian-13-trixie/   https://terokarvinen.com/2018/03/28/salt-quickstart-salt-stack-master-and-slave-on-ubuntu-linux/  
+Karvinen, T. 2025. Palvelinten hallinta. Luettavissa: https://terokarvinen.com/palvelinten-hallinta/#h6-miniprojekti. Luettu: 30.11.2025.  
+Samba. s.a. smbpasswd (8). Luettavissa: https://www.samba.org/samba/docs/current/man-html/smbpasswd.8.html. Luettu: 30.11.2025.  
+SambaWiki. 2025. Setting up Samba as a Standalone Server. Luettavissa: https://wiki.samba.org/index.php/Setting_up_Samba_as_a_Standalone_Server. Luettu: 30.11.2025.  
+Stackexchange. 2022. Shell script to set password for samba user. Luettavissa: https://unix.stackexchange.com/a/584414. Luettu: 30.11.2025.  
+Stackexchange. 2016. What's the difference between /sbin/nologin and /bin/false. Luettavissa: https://unix.stackexchange.com/a/10867. Luettu: 30.11.2025.  
+Stackoverflow. 2010. echo smbpasswd by --stdin doesn't work. Luettavissa: https://stackoverflow.com/a/3323978. Luettu: 30.11.2025.
+VMware a. 2025. salt.states.user. Luettavissa: https://docs.saltproject.io/en/latest/ref/states/all/salt.states.user.html. Luettu: 30.11.2025.
+VMware b. 2025. salt.states.group. Luettavissa: https://docs.saltproject.io/en/latest/ref/states/all/salt.states.group.html. Luettu: 30.11.2025.
+VMware c. 2025. salt.states.file. Luettavissa: https://docs.saltproject.io/en/latest/ref/states/all/salt.states.file.html#salt.states.file.directory. Luettu: 30.11.2025.
+VMware d. 2025. salt.states.cmd. Luettavissa: https://docs.saltproject.io/en/latest/ref/states/all/salt.states.cmd.html. Luettu: 30.11.2025.
+VMware e. 2025. Requisites and Other Global State Arguments. Luettavissa: https://docs.saltproject.io/en/latest/ref/states/requisites.html#requisites-onchanges. Luettu: 30.11.2025.
