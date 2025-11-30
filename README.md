@@ -6,6 +6,9 @@ Setting up a Samba server with ufw using Salt.
 
 - Configurations are made with Salt. UFW configurations are made to serve just the use of Samba.
 
+## Samba
+
+
 ## References
 
 - UFW [help.ubuntu.com](https://help.ubuntu.com/community/UFW)
