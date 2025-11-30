@@ -5,7 +5,7 @@
 wsUser1:
   user.present:
     - createhome: false
-    - shell: /sbin/nologin
+    - shell: /usr/sbin/nologin
     - password: testi123
 
 nasUsers:
