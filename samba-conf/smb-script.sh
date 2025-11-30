@@ -1,4 +1,4 @@
 user="wsUser1"
 pass="testi123"
 
-echo -e "$pass\n$pass" | smbpasswd -a -s $user
+printf "$pass\n$pass\n" | smbpasswd -a -s $user
