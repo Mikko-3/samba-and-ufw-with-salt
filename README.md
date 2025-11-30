@@ -1,6 +1,9 @@
-# samba-and-ufw-with-salt
-Setting up a Samba server with ufw using Salt.
+# Set up Samba and UFW for NAS using Salt
 
+This is a small project for Haaga-Helia University of Applied Sciences Configuration Management Systems course.
+This project was made by [Mikko Niskala](https://github.com/Mikko-3) and [Niilo Myllynen](https://github.com/AntoineOkun).
+Main idea of the project was to set up a Samba standalone server to share files over the local network and manage it with Salt.
+Uncomplicated Firewall was included to make setting up firewall rules easier.
 
 ## Salt and UFW
 
