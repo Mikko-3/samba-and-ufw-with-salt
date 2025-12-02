@@ -19,16 +19,15 @@ Virtuaalikoneiden nimet: workstation (master) ja sambaServer (slave)
 Virtuaalinen NAT verkko "Projekti": 10.0.2.0/24  
 IP osoitteet: workstation - 10.0.2.4 , sambaServer - 10.0.2.15
 
-**Niilo:**
+**Niilo:**  
+Fyysinen kone:  
+MacBook Air M3  
 
-Fyysinen kone:
-MacBook Air M3
-
-Virtuaali kone
-Virtualisointiohjelma: UTM
-Virtuaalikoneiden OS: Debian 12 (bookworm)
-Muisti 4 GB
-Tila 80 GB
+Virtuaali kone  
+Virtualisointiohjelma: UTM  
+Virtuaalikoneiden OS: Debian 12 (bookworm)  
+Muisti 4 GB  
+Tila 80 GB  
 
 ## Suunnittelu
 
